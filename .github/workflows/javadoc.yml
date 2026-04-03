@@ -1,0 +1,20 @@
+name: javadoc
+on:
+  push:
+    branches: [stable]
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - run: javadoc -d docs -sourcepath src/main/java -subpackages . -encoding UTF-8
+      - uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs
+          branch: gh-pages
